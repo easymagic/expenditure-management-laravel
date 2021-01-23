@@ -1,39 +1,144 @@
-<form action="{{ route('continent.update',[$item->id]) }}" method="post">
-    <!-- Modal -->
-    @csrf
+@extends('components.modal',[
+ 'action'=>route('user.update',[$item->id]),
+ 'modal_id'=>'edit' . $item->id,
+ 'modal_header'=>'Edit ' . ucfirst($type) . '(' . $item->statusName . ')'
+])
+
+@section('modal-body')
+
     @method('PUT')
-    <div id="edit{{ $item->id }}" class="modal fade" role="dialog">
-        <div class="modal-dialog">
 
-            <!-- Modal content-->
-            <div class="modal-content">
-                <div class="modal-header">
-                    <h4 class="modal-title">Edit Continent</h4>
-                    <button type="button" class="close" data-dismiss="modal">&times;</button>
-                </div>
-                <div class="modal-body">
+    {{--<input type="hidden" name="change_profile" value="1" />--}}
 
-                    <div class="col-md-12">
-                        <label for="">Name</label>
-                    </div>
-                    <div class="col-md-12">
-                        <input class="form-control" value="{{ $item->name }}" type="text" name="name" placeholder="Continent Name" />
-                    </div>
+    <div class="row">
 
-                    <div class="col-md-12">
-                        <label for="">Lat-Lng</label>
-                    </div>
-                    <div class="col-md-12">
-                        <input class="form-control" type="text" name="latlng" placeholder="Lat - Long" value="{{ $item->latlng }}" />
-                    </div>
 
-                </div>
-                <div class="modal-footer">
-                    <button type="submit" class="btn btn-success">Save</button>
-                    <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
-                </div>
+        <div class="col-md-12">
+            <label for="">Name</label>
+        </div>
+        <div class="col-md-12">
+            <input name="name" type="text" class="form-control" placeholder="Name" value="{{ $item->name }}"  />
+        </div>
+
+
+        <div class="col-md-12">
+            <label for="">E-mail</label>
+        </div>
+        <div class="col-md-12">
+            <input type="text" readonly disabled class="form-control" placeholder="E-mail" value="{{ $item->email }}"  />
+        </div>
+
+
+        <div class="col-md-12">
+            <label for="">Phone</label>
+        </div>
+        <div class="col-md-12">
+            <input name="phone" type="text" class="form-control" placeholder="Phone" value="{{ $item->phone }}"  />
+        </div>
+        <div class="col-md-12">
+            <label for="">Address</label>
+        </div>
+        <div class="col-md-12">
+            <input name="address" type="text" class="form-control" placeholder="Address" value="{{ $item->address }}"  />
+        </div>
+
+        <input type="hidden" name="type" value="{{ $item->type }}" />
+
+
+
+        @if ($type == 'dispatcher')
+
+            <div class="col-md-12">
+                <label for="">Select Ride</label>
+            </div>
+            <div class="col-md-12">
+                <select name="ride_id" id="" class="form-control">
+                    <option value="">Select</option>
+                    @foreach ($rides as $ride)
+                        <option {{ ($ride->id == $item->ride_id)? ' selected ' : '' }} value="{{ $ride->id }}">{{ $ride->name }}</option>
+                    @endforeach
+                </select>
             </div>
 
+
+        @endif
+
+
+        <div style="padding: 0;" class="col-md-12" id="logo_container">
+        @if (!empty($item->user_image))
+            <div class="col-md-12">
+                <img src="{{ asset('uploads/' . $item->user_image) }}" alt="" style="max-width: 27%;border-radius: 50%;border: 4px solid #333;" />
+            </div>
+        @endif
+
+        <div class="col-md-12">
+            <label for="">
+                Passport
+                <input name="logo" type="file" class="form-control" placeholder="Passport"  />
+            </label>
         </div>
+
+
+
+
+
+
+            @if ($item->type != 'admin')
+            <div class="col-md-12" style="
+    padding: 15px;
+    background-color: #ccc;
+    border: 1px solid #999;
+">
+
+                <h6><u>Password Section</u></h6>
+
+                <div class="col-md-12">
+                    <label for="">Old Password</label>
+                </div>
+                <div class="col-md-12">
+                    <input name="password_old" type="password" class="form-control" placeholder="Old Password"  />
+                </div>
+
+                <div class="col-md-12">
+                    <label for="">New Password</label>
+                </div>
+                <div class="col-md-12">
+                    <input name="password0" type="password" class="form-control" placeholder="New Password"  />
+                </div>
+
+
+                <div class="col-md-12">
+                    <label for="">Confirm Password</label>
+                </div>
+                <div class="col-md-12">
+                    <input name="password1" type="password" class="form-control" placeholder="New Password"  />
+                </div>
+
+
+            </div>
+            @endif
+
+
+
+
+
+
+        </div>
+
+
+
     </div>
-</form>
+@overwrite
+
+@section('modal-footer')
+    <input type="submit" name="update_user" value="Update {{ ucfirst($item->type) }}" class="btn btn-xs btn-success" />
+
+    <input type="submit" name="enable_account" value="Enable Account " class="btn btn-xs btn-warning" />
+
+    <input type="submit" name="disable_account" value="Disable Account " class="btn btn-xs btn-danger" />
+
+    <input type="submit" name="change_password" value="Change Password " class="btn btn-xs btn-primary" />
+
+
+
+@overwrite
