@@ -1,4 +1,4 @@
-<form action="{{ route('continent.update',[$item->id]) }}" method="post">
+<form action="{{ route('expenditure.update',[$item->id]) }}" method="post">
     <!-- Modal -->
     @csrf
     @method('PUT')
@@ -8,29 +8,51 @@
             <!-- Modal content-->
             <div class="modal-content">
                 <div class="modal-header">
-                    <h4 class="modal-title">Edit Continent</h4>
+                    <h4 class="modal-title">Edit Expenditure</h4>
                     <button type="button" class="close" data-dismiss="modal">&times;</button>
                 </div>
+
+
+
                 <div class="modal-body">
 
                     <div class="col-md-12">
-                        <label for="">Name</label>
+                        <label for="">Category</label>
                     </div>
                     <div class="col-md-12">
-                        <input class="form-control" value="{{ $item->name }}" type="text" name="name" placeholder="Continent Name" />
+                        <select name="category_id" class="form-control">
+                            <option value="">--Select--</option>
+                            @foreach ($categories as $category)
+                                <option {{ $selected($category->id == $item->category_id) }}  value="{{ $category->id }}">{{ $category->name }}</option>
+                            @endforeach
+                        </select>
+                    </div>
+
+
+                    <div class="col-md-12">
+                        <label for="">Item Name</label>
+                    </div>
+                    <div class="col-md-12">
+                        <input value="{{ $item->item }}" class="form-control" type="text" name="item" placeholder="Item Name" />
                     </div>
 
                     <div class="col-md-12">
-                        <label for="">Lat-Lng</label>
+                        <label for="">Item Cost</label>
                     </div>
                     <div class="col-md-12">
-                        <input class="form-control" type="text" name="latlng" placeholder="Lat - Long" value="{{ $item->latlng }}" />
+                        <input value="{{ $item->cost }}" class="form-control" type="text" name="cost" placeholder="Item Cost" />
                     </div>
 
                 </div>
+
+
+
+
                 <div class="modal-footer">
-                    <button type="submit" class="btn btn-success">Save</button>
-                    <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+                    <button type="submit" class="btn btn-xs btn-success">Save</button>
+                    <input type="submit" name="activate" class="btn btn-xs btn-primary" value="Activate" />
+                    <input type="submit" name="deactivate" class="btn btn-xs btn-danger" value="Deactivate" />
+                    <button type="button" class="btn btn-xs btn-default" data-dismiss="modal">Close</button>
                 </div>
             </div>
 

@@ -3,21 +3,18 @@
 @section('content')
 
 
-    @include('continent.create')
+    @include('expenditure.create')
 
     @foreach ($list as $item)
 
-        @include('continent.edit')
+        @include('expenditure.edit')
 
     @endforeach
 
     <div class="col-md-12" align="right" style="margin-bottom: 11px;margin-top: 11px;">
-        <a data-toggle="modal" data-target="#create" href="#" class="btn btn-sm btn-primary">+ Continent</a>
+        <a data-toggle="modal" data-target="#create" href="#" class="btn btn-sm btn-primary">+ Expenditure</a>
     </div>
 
-    <div class="col-md-12">
-        {{ $percent(20,1000) }}
-    </div>
 
     <div class="col-md-12">
         <table class="table">
@@ -34,6 +31,9 @@
                     Cost
                 </th>
                 <th>
+                    Status
+                </th>
+                <th>
                     Created
                 </th>
                 <th>
@@ -48,7 +48,7 @@
                 <tr>
 
                     <td>
-                        {{ $item->category_id }}
+                        {{ $item->category->name }}
                     </td>
 
                     <td>
@@ -57,6 +57,10 @@
 
                     <td>
                         {{ $item->cost }}
+                    </td>
+
+                    <td>
+                        {!! $status_badge($item->status,$item->status_name) !!}
                     </td>
 
                     <td>

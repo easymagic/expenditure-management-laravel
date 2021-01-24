@@ -40,6 +40,13 @@ class ExpenditureController extends Controller
     public function store(Request $request)
     {
         //
+        $data = (new Expenditure)->createExpenditure();
+
+        return redirect()->back()->with([
+            'message'=>'New expenditure added',
+            'error'=>false,
+            'data'=>$data
+        ]);
     }
 
     /**
@@ -51,6 +58,10 @@ class ExpenditureController extends Controller
     public function show(Expenditure $expenditure)
     {
         //
+
+        $result = $expenditure->isExpenditureOverTime();
+        dd($result);
+
     }
 
     /**
@@ -74,6 +85,49 @@ class ExpenditureController extends Controller
     public function update(Request $request, Expenditure $expenditure)
     {
         //
+
+        if ($expenditure->isExpenditureOverTime()){
+            return redirect()->back()->with([
+                'message'=>'Cannot edit expenditure over 2mins!',
+                'error'=>true
+            ]);
+        }
+
+        if ($expenditure->isExpenditureAcive()){
+            return redirect()->back()->with([
+                'message'=>'Cannot edit expenditure that is active!',
+                'error'=>true
+            ]);
+        }
+
+        if (request()->filled('activate')){
+            $data = $expenditure->activate();
+            return redirect()->back()->with([
+                'message'=>'Expenditure activated',
+                'error'=>false,
+                'data'=>$data
+            ]);
+        }
+
+
+        if (request()->filled('deactivate')){
+            $data = $expenditure->deactivate();
+            return redirect()->back()->with([
+                'message'=>'Expenditure deactivated',
+                'error'=>false,
+                'data'=>$data
+            ]);
+        }
+
+
+        $data = $expenditure->updateExependiture();
+
+        return redirect()->back()->with([
+            'message'=>'Expenditure saved',
+            'error'=>false,
+            'data'=>$data
+        ]);
+
     }
 
     /**
