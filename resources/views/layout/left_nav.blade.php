@@ -27,6 +27,14 @@
 
 
                 {{--<li class="nav-header">Dashboard</li>--}}
+                <li class="nav-item">
+                    <a href="{{ route('dashboard') }}" class="nav-link">
+                        <i class="nav-icon far fa-calendar-alt"></i>
+                        <p>
+                            Dashboard
+                        </p>
+                    </a>
+                </li>
 
 
                 <li class="nav-item">

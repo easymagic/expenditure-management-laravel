@@ -64,7 +64,7 @@
                     </td>
 
                     <td>
-                        {{ $item->created_at }}
+                        {{ $item->created_at->diffForHumans() }}
                     </td>
 
 
