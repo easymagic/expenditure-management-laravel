@@ -15,6 +15,9 @@ class CategoryController extends Controller
     public function index()
     {
         //
+        $list = Category::all();
+
+        return view('category.index',compact(['list']));
     }
 
     /**
@@ -36,6 +39,14 @@ class CategoryController extends Controller
     public function store(Request $request)
     {
         //
+
+        $data = (new Category)->createCategory();
+
+        return redirect()->back()->with([
+            'message'=>'Category created',
+            'error'=>false,
+            'data'=>$data
+        ]);
     }
 
     /**
@@ -70,6 +81,13 @@ class CategoryController extends Controller
     public function update(Request $request, Category $category)
     {
         //
+        $data = $category->updateCategory();
+        return redirect()->back()->with([
+            'message'=>'Category created',
+            'error'=>false,
+            'data'=>$data
+        ]);
+
     }
 
     /**
@@ -81,5 +99,19 @@ class CategoryController extends Controller
     public function destroy(Category $category)
     {
         //
+        if (!$category->isCategoryLinked()){
+            $category->delete();
+            return redirect()->back()->with([
+                'message'=>'Category removed',
+                'error'=>false
+            ]);
+        }
+
+        return redirect()->back()->with([
+            'message'=>'Cannot remove linked category',
+            'error'=>true
+        ]);
+
     }
+
 }

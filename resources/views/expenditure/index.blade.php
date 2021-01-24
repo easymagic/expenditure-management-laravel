@@ -25,7 +25,13 @@
             <tr>
 
                 <th>
-                    Name
+                    Category
+                </th>
+                <th>
+                    Item
+                </th>
+                <th>
+                    Cost
                 </th>
                 <th>
                     Created
@@ -41,15 +47,29 @@
 
                 <tr>
 
-                    {!! $cell($item->name) !!}
+                    <td>
+                        {{ $item->category_id }}
+                    </td>
 
-                    {!! $cell($period($item->created_at)) !!}
+                    <td>
+                        {{ $item->item }}
+                    </td>
+
+                    <td>
+                        {{ $item->cost }}
+                    </td>
+
+                    <td>
+                        {{ $item->created_at }}
+                    </td>
+
 
                     <td>
 
-                        {!! $modal_button('#edit' . $item->id, 'Edit...','btn-primary') !!}
+                        <a href="#" data-target="#edit{{ $item->id }}" data-toggle="modal" class="btn btn-sm btn-warning">Edit</a>
 
-                        <form style="display: inline-block;" onsubmit="return confirm('Do you want to remove this record?');" action="{{ route('continent.destroy',[$item->id]) }}" method="post">
+
+                        <form style="display: inline-block;" onsubmit="return confirm('Do you want to remove this record?');" action="{{ route('expenditure.destroy',[$item->id]) }}" method="post">
                             @csrf
                             @method('DELETE')
                             <button class="btn btn-sm btn-danger">Remove</button>

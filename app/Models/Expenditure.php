@@ -24,5 +24,14 @@ class Expenditure extends Model
         return $builder->where('status',0);
     }
 
+    function scopeFetch(Builder $builder){
+
+
+
+
+        return $builder;
+
+    }
+
 
 }

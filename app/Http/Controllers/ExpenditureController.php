@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Category;
 use App\Models\Expenditure;
 use Illuminate\Http\Request;
 
@@ -15,6 +16,9 @@ class ExpenditureController extends Controller
     public function index()
     {
         //
+        $categories = Category::all();
+        $list = Expenditure::fetch()->paginate(10);
+        return view('expenditure.index',compact(['list','categories']));
     }
 
     /**

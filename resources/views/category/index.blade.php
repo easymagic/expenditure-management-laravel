@@ -3,21 +3,18 @@
 @section('content')
 
 
-    @include('continent.create')
+    @include('category.create')
 
     @foreach ($list as $item)
 
-        @include('continent.edit')
+        @include('category.edit')
 
     @endforeach
 
     <div class="col-md-12" align="right" style="margin-bottom: 11px;margin-top: 11px;">
-        <a data-toggle="modal" data-target="#create" href="#" class="btn btn-sm btn-primary">+ Continent</a>
+        <a data-toggle="modal" data-target="#create" href="#" class="btn btn-sm btn-primary">+ Category</a>
     </div>
 
-    <div class="col-md-12">
-        {{ $percent(20,1000) }}
-    </div>
 
     <div class="col-md-12">
         <table class="table">
@@ -41,15 +38,19 @@
 
                 <tr>
 
-                    {!! $cell($item->name) !!}
+                    <td>
+                        {{ $item->name }}
+                    </td>
 
-                    {!! $cell($period($item->created_at)) !!}
+                    <td>
+                        {{ $item->created_at }}
+                    </td>
 
                     <td>
 
-                        {!! $modal_button('#edit' . $item->id, 'Edit...','btn-primary') !!}
+                        <a href="#" data-toggle="modal" data-target="#edit{{ $item->id }}" class="btn btn-sm btn-warning">Edit</a>
 
-                        <form style="display: inline-block;" onsubmit="return confirm('Do you want to remove this record?');" action="{{ route('continent.destroy',[$item->id]) }}" method="post">
+                        <form style="display: inline-block;" onsubmit="return confirm('Do you want to remove this record?');" action="{{ route('category.destroy',[$item->id]) }}" method="post">
                             @csrf
                             @method('DELETE')
                             <button class="btn btn-sm btn-danger">Remove</button>
